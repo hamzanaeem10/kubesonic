@@ -31,4 +31,18 @@ Below is a real-time Grafana dashboard capturing a traffic burst.
 
 1. **Start Minikube**
    ```bash
-   minikube start --driver=docker
+   minikube start --driver=
+
+
+
+
+   Deploy Components
+
+Bash
+
+kubectl apply -f k8s/
+Verify Autoscaling Flood the queue and watch KEDA activate:
+
+Bash
+
+kubectl get pods -w
