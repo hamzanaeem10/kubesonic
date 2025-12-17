@@ -8,7 +8,8 @@ Below is a real-time Grafana dashboard capturing a traffic burst.
 * **Yellow Line (Cause):** Network traffic hits Redis (Job Queue fills up).
 * **Green Steps (Effect):** KEDA triggers the Horizontal Pod Autoscaler, provisioning new worker pods in steps to handle the load.
 
-![Autoscaling Visualization](autoscaling-proof.png)
+<img width="1838" height="842" alt="image" src="https://github.com/user-attachments/assets/93baf1ea-ce6d-4fd3-891b-58f9e5d70ffe" />
+
 
 ---
 
