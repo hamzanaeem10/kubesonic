@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonic-worker
+spec:
+  replicas: 0 # Start with 0! KEDA will wake it up.
+  selector:
+    matchLabels:
+      app: sonic-worker
+  template:
+    metadata:
+      labels:
+        app: sonic-worker
+    spec:
+      containers:
+      - name: worker
+        image: kube-sonic:v1
+        imagePullPolicy: Never
+        command: ["python", "app.py", "worker"] # Override CMD to run worker mode
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: PYTHONUNBUFFERED # Ensures logs show up instantly
+          value: "1"
+        volumeMounts:
+        - mountPath: "/data"
+          name: shared-storage
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: sonic-pvc

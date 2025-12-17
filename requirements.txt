@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+redis
+python-multipart
+# torch         <-- Uncomment these later for real SAM Audio
+# torchaudio
+# sam-audio

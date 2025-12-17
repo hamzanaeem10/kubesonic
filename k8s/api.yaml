@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonic-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonic-api
+  template:
+    metadata:
+      labels:
+        app: sonic-api
+    spec:
+      containers:
+      - name: api
+        image: kube-sonic:v1
+        imagePullPolicy: Never  # IMPORTANT: Use local image
+        ports:
+        - containerPort: 8000
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        volumeMounts:
+        - mountPath: "/data"
+          name: shared-storage
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: sonic-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonic-api-service
+spec:
+  type: NodePort
+  selector:
+    app: sonic-api
+  ports:
+    - port: 80
+      targetPort: 8000
+      nodePort: 30000
